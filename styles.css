@@ -430,6 +430,12 @@ img{max-width:100%;display:block}
   }
 }
 
+.hero-title-mobile,
+.hero-lead-mobile,
+.project-mobile-hint{
+  display:none;
+}
+
 /* Processo — ecossistema de aquisição */
 .process{padding-top:110px;padding-bottom:110px}
 .process-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);gap:70px;align-items:start}
@@ -636,17 +642,32 @@ img{max-width:100%;display:block}
 /* ---------- Até 760px: celular ---------- */
 @media (max-width:760px){
   .container{width:calc(100% - 28px)}
-  .section,.process{padding-top:88px;padding-bottom:88px}
+  .section,.process{padding-top:64px;padding-bottom:64px}
 
   .site-header .header-inner{width:calc(100% - 28px);min-height:64px}
   .main-nav{right:14px;width:min(360px,calc(100% - 28px))}
 
-  .hero{min-height:auto;padding-top:100px;padding-bottom:80px}
+  .hero{min-height:auto;padding-top:78px;padding-bottom:64px}
   .hero h1{font-size:clamp(43px,13vw,60px)}
-  .hero-lead{font-size:16px;line-height:1.7}
+  .hero-title-desktop,
+  .hero-lead-desktop{display:none}
+  .hero-title-mobile,
+  .hero-lead-mobile{display:block}
+  .hero-title-mobile{
+    margin:16px 0 10px;
+    font-size:clamp(32px,9.5vw,46px);
+    line-height:1.02;
+    letter-spacing:-.045em;
+  }
+  .hero-lead-mobile{
+    margin:0;
+    max-width:600px;
+    color:#9AA6B7;
+    font-size:13px;
+    line-height:1.62;
+  }
+  .hero-proof{display:none}
   .hero-actions .button{width:100%}
-  .hero-proof{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
-  .hero-proof i{display:none}
 
   .section-heading h2,.contact-copy h2{font-size:clamp(32px,10vw,39px)}
   .process-title h2{font-size:clamp(34px,10.5vw,54px)}
@@ -654,9 +675,51 @@ img{max-width:100%;display:block}
   .process-ecosystem{padding:24px 16px}
   .process-label{letter-spacing:.12em}
 
-  .service-grid{margin-top:40px}
-  .project-preview{grid-template-columns:1fr;margin-top:40px}
-  .project-preview>:last-child:nth-child(odd){grid-column:auto;justify-self:stretch;width:auto}
+  .service-grid{margin-top:28px;gap:12px}
+  .service-card{padding:22px;min-height:0}
+  .service-card .service-number{display:none}
+  .service-icon{margin:8px 0 18px}
+
+  .project-preview{
+    display:flex;
+    flex-direction:row;
+    gap:12px;
+    margin-top:30px;
+    width:calc(100vw - 14px);
+    max-width:none;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:0 0 8px;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .project-preview::-webkit-scrollbar{display:none}
+  .project-preview .project-placeholder{
+    flex:0 0 82%;
+    width:82%;
+    margin:0;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    opacity:.46;
+    transform:none;
+    transition:opacity .25s ease,transform .25s ease,border-color .25s ease;
+  }
+  .project-preview .project-placeholder.is-slider-active{opacity:1}
+  .project-preview .placeholder-art{height:240px}
+  .project-mobile-hint{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:7px;
+    margin:8px 2px 0;
+    color:#667387;
+    font:700 9px "Space Mono",monospace;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .project-mobile-hint span{color:#5C94ED;font-size:13px}
 
   .contact-form{padding:19px}
   .form-row{grid-template-columns:1fr;gap:0}
@@ -672,6 +735,71 @@ img{max-width:100%;display:block}
   .back-to-top{right:21px}
   .toast{bottom:84px}
 }
+
+
+
+/* ---------- Ajustes mobile solicitados ---------- */
+@media (max-width:760px){
+  /* Como trabalhamos: números em coluna lateral, com linha vertical entre eles */
+  .process-ecosystem{
+    margin-top:32px;
+    padding:22px 16px;
+  }
+  .process-line{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    max-width:none;
+    margin:26px 0 0;
+  }
+  .process-step{
+    display:grid;
+    grid-template-columns:44px minmax(0,1fr);
+    column-gap:12px;
+    align-items:start;
+    min-height:84px;
+  }
+  .process-step .process-node{
+    grid-column:1;
+    grid-row:1 / span 2;
+    width:36px;
+    height:36px;
+    margin:0;
+    justify-self:start;
+    box-shadow:0 0 0 6px rgba(7,19,35,.96);
+  }
+  .process-step .step-line{display:none}
+  .process-step h3{
+    grid-column:2;
+    margin:1px 0 0;
+    text-align:left;
+    font-size:14px;
+    line-height:1.3;
+  }
+  .process-step p{
+    grid-column:2;
+    margin:5px 0 0;
+    max-width:none;
+    text-align:left;
+    font-size:11px;
+    line-height:1.55;
+  }
+  .process-step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    left:18px;
+    top:38px;
+    bottom:-6px;
+    width:1px;
+    background:linear-gradient(180deg,rgba(18,107,255,.72),rgba(18,107,255,.16));
+  }
+
+  /* Menos espaço dentro das seções no mobile */
+  .section-heading h2{margin-bottom:14px}
+  .service-footnote{margin-top:14px}
+  .faq-shell,.contact-grid{gap:36px}
+}
+
 
 /* ---------- Até 560px ---------- */
 @media (max-width:560px){

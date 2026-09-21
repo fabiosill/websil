@@ -255,4 +255,52 @@
     const query = params.toString();
     window.history.replaceState(null, "", window.location.pathname + (query ? `?${query}` : "") + window.location.hash);
   }
+
+  /* ---------- Cases: carrossel horizontal no mobile ---------- */
+  const mobileProjectRail = document.querySelector(".project-preview");
+  const mobileProjects = mobileProjectRail
+    ? [...mobileProjectRail.querySelectorAll(".project-placeholder")]
+    : [];
+
+  if (mobileProjectRail && mobileProjects.length) {
+    const mobileProjectsQuery = window.matchMedia("(max-width: 760px)");
+    let projectRaf = 0;
+
+    const syncProjectSlider = () => {
+      projectRaf = 0;
+      if (!mobileProjectsQuery.matches) {
+        mobileProjects.forEach((card) => card.classList.remove("is-slider-active"));
+        return;
+      }
+
+      const railRect = mobileProjectRail.getBoundingClientRect();
+      const railCenter = railRect.left + railRect.width / 2;
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      mobileProjects.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const distance = Math.abs((rect.left + rect.width / 2) - railCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      mobileProjects.forEach((card, index) => {
+        card.classList.toggle("is-slider-active", index === nearestIndex);
+      });
+    };
+
+    const requestProjectSync = () => {
+      if (projectRaf) return;
+      projectRaf = window.requestAnimationFrame(syncProjectSlider);
+    };
+
+    mobileProjectRail.addEventListener("scroll", requestProjectSync, { passive: true });
+    window.addEventListener("resize", requestProjectSync);
+    mobileProjectsQuery.addEventListener?.("change", requestProjectSync);
+    requestProjectSync();
+  }
+
 })();
