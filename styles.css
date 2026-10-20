@@ -647,7 +647,9 @@ img{max-width:100%;display:block}
   .site-header .header-inner{width:calc(100% - 28px);min-height:64px}
   .main-nav{right:14px;width:min(360px,calc(100% - 28px))}
 
-  .hero{min-height:auto;padding-top:78px;padding-bottom:64px}
+  /* Hero ocupa a tela inteira do celular. svh = altura visível (com a barra do
+     navegador); o 100vh fica só como fallback para navegadores antigos. */
+  .hero{min-height:100vh;min-height:100svh;padding-top:78px;padding-bottom:64px}
   .hero h1{font-size:clamp(43px,13vw,60px)}
   .hero-title-desktop,
   .hero-lead-desktop{display:none}
